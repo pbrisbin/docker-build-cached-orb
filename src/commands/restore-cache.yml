@@ -1,0 +1,40 @@
+description: |
+  TODO
+
+parameters:
+  image:
+    description: Image to build, <registery/name>
+    type: string
+  build-stages:
+    description: Space separated list of AS names, for multi-stage builds
+    type: string
+    default: ""
+
+steps:
+  - run:
+      name: Restore images from cache registry
+      command: |
+        pull_branch_stage() {
+          local branch=$1 stage=$2 image="<<parameters.image>>"
+          echo "Pulling image for $branch, $stage stage"
+          docker pull "$image:$branch-$stage" || return 1
+          docker tag "$image:$branch-$stage" "$image:$stage"
+        }
+
+        pull_branch() {
+          local branch=$1 stage
+
+          for stage in <<parameters.build-stages>> final; do
+            pull_branch_stage "$branch" "$stage" || return 1
+          done
+        }
+
+        if pull_branch "${CIRCLE_BRANCH//\//-}"; then
+          exit 0
+        fi
+
+        if pull_branch master; then
+          exit 0
+        fi
+
+        echo "No existing images found"

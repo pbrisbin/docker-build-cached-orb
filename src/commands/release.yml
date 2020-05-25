@@ -1,0 +1,17 @@
+description: |
+  TODO
+
+parameters:
+  image:
+    description: Image to build, <registery/name>
+    type: string
+
+steps:
+  - run:
+      name: Release image, tagged by Commit SHA
+      command: |
+        sha=${CIRCLE_SHA1:0:10}
+        release_image=<<paramaters.image>>:$sha
+        docker tag "<<parameters.image>>:final" "$release_image"
+        docker push "$release_image"
+        echo "Released image: $release_image"

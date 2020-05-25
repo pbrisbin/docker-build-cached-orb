@@ -1,0 +1,39 @@
+description: |
+  TODO
+
+parameters:
+  image:
+    description: Image to build, <registery/name>
+    type: string
+  build-stages:
+    description: Space separated list of AS names, for multi-stage builds
+    type: string
+    default: ""
+  extra-build-arguments:
+    description: Extra arguments for docker-build
+    type: string
+    default: ""
+
+steps:
+  - run:
+      name: Build images
+      command: |
+        cache_froms=''
+
+        for stage in <<parameters.build-stages>>; do
+          docker build \
+            --tag "<<parameters.image>>:$stage" \
+            $cache_froms --cache-from "<<parameters.image>>:$stage" \
+            --target $stage \
+            <<parameters.extra-arguments>> \
+            .
+
+          # Add this stage as future --cache-froms
+          cache_froms="$cache_froms --cache-from <<parameters.image>>:$stage"
+        done
+
+        docker build \
+          --tag "<<parameters.image>>:final" \
+          $cache_froms --cache-from "<<parameters.image>>:final" \
+          <<parameters.extra-arguments>> \
+          .

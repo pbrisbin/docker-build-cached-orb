@@ -1,0 +1,17 @@
+description: |
+  TODO
+
+parameters:
+  registry-username:
+    type: env_var_name
+    default: REGISTRY_USERNAME
+  registry-password:
+    type: env_var_name
+    default: REGISTRY_PASSWORD
+
+steps:
+  - run:
+      name: Docker login
+      command: docker login
+        -u "${<<parameters.registry-username>>}"
+        -p "${<<parameters.registry-password>>}"

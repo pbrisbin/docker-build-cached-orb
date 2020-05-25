@@ -1,0 +1,21 @@
+description: |
+  TODO
+
+parameters:
+  image:
+    description: Image to build, <registery/name>
+    type: string
+  build-stages:
+    description: Space separated list of AS names, for multi-stage builds
+    type: string
+    default: ""
+
+steps:
+  - run:
+      name: Save images to cache registry
+      command: |
+        for stage in <<parameters.build-stages>> final; do
+          docker tag "<<parameters.image>>:$stage" \
+            "<<parameters.image>>:${CIRCLE_BRANCH//\//-}-$stage"
+          docker push "<<parameters.image>>:${CIRCLE_BRANCH//\//-}-$stage"
+        done

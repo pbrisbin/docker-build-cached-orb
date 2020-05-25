@@ -1,0 +1,52 @@
+description: |
+  TODO
+
+parameters:
+  registry-username:
+    type: env_var_name
+    default: REGISTRY_USERNAME
+  registry-password:
+    type: env_var_name
+    default: REGISTRY_PASSWORD
+  image:
+    description: Tagless image being built
+    type: string
+  build-stages:
+    description: Space separated list of AS names, for multi-stage builds
+    type: string
+    default: ""
+  extra-build-arguments:
+    description: Extra arguments for docker-build
+    type: string
+    default: ""
+  release:
+    description: Push a commit-tagged version at the end?
+    type: boolean
+    default: true
+
+executor:
+  docker:
+    - image: docker:18.09.3
+
+steps:
+  - checkout
+  - setup_remote_docker:
+      version: 18.09.3
+  - login:
+      registry-username: <<parameters.registry-username>>
+      registry-password: <<parameters.registry-password>>
+  - restore-cache:
+      image: <<parameters.image>>
+      build-stages: <<parameters.build-stages>>
+  - build:
+      image: <<parameters.image>>
+      build-stages: <<parameters.build-stages>>
+      extra-build-arguments: <<parameters.extra-build-arguments>>
+  - save-cache:
+      image: <<parameters.image>>
+      build-stages: <<parameters.build-stages>>
+  - when:
+      condition: <<parameters.release>>
+      steps:
+        - release:
+            image: <<parameters.image>>
