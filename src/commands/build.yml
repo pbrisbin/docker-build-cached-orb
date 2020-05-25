@@ -25,7 +25,7 @@ steps:
             --tag "<<parameters.image>>:$stage" \
             $cache_froms --cache-from "<<parameters.image>>:$stage" \
             --target $stage \
-            <<parameters.extra-arguments>> \
+            <<parameters.extra-build-arguments>> \
             .
 
           # Add this stage as future --cache-froms
@@ -35,5 +35,5 @@ steps:
         docker build \
           --tag "<<parameters.image>>:final" \
           $cache_froms --cache-from "<<parameters.image>>:final" \
-          <<parameters.extra-arguments>> \
+          <<parameters.extra-build-arguments>> \
           .
