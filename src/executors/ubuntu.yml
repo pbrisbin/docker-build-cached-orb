@@ -1,0 +1,4 @@
+description: |
+  Machine executor using Circle Ubuntu image
+machine:
+  image: ubuntu-1604:201903-01

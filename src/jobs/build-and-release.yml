@@ -23,10 +23,12 @@ parameters:
     description: Push a commit-tagged version at the end?
     type: boolean
     default: true
+  executor:
+    description: "Executor to use for this job"
+    type: executor
+    default: ubuntu
 
-executor:
-  docker:
-    - image: docker:18.09.3
+executor: <<parameters.executor>>
 
 steps:
   - checkout
