@@ -36,5 +36,3 @@ steps:
         if pull_branch master; then
           exit 0
         fi
-
-        echo "No existing images found"
