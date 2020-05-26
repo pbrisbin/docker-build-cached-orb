@@ -1,5 +1,6 @@
 description: |
-  TODO
+  Save images to the cache registry. Tag images for this branch and, in the case
+  of multi-stage, each stage.
 
 parameters:
   image:

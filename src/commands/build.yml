@@ -1,5 +1,6 @@
 description: |
-  TODO
+  Build the image with correct --cache-from arguments. For multi-stage images,
+  build each layer separately with --target and a --cache-from of prior layers.
 
 parameters:
   image:

@@ -1,5 +1,6 @@
 description: |
-  TODO
+  Tag the built image with the first 10 digits of the current Commit SHA and
+  push it. In the case of multi-stage, do this with the final stage only.
 
 parameters:
   image:

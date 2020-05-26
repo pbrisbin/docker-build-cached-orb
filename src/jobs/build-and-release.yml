@@ -1,5 +1,6 @@
 description: |
-  TODO
+  Build a docker image, handling caching of possibly multi-stage images, and
+  release a final image tagged for the built SHA.
 
 parameters:
   registry-username:

@@ -1,0 +1,18 @@
+description: |
+  Build and release a multi-stage docker image
+
+usage:
+  version: 2.1
+
+  orbs:
+    docker-build-cached: pbrisbin/docker-build-cached@x.y
+
+  workflows:
+    build_and_release:
+      jobs:
+        - docker-build-cached/build-and-release:
+            registry-username: DOCKERHUB_USERNAME
+            registry-password: DOCKERHUB_PASSWORD
+            image: foo/bar
+            build-stages: builder
+            extra-build-arguments: '--build-arg "REVISION=$CIRCLE_SHA1"'

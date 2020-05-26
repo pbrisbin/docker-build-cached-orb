@@ -1,5 +1,7 @@
 description: |
-  TODO
+  Restore images from the cache registry. Attempt to pull images tagged for this
+  branch, or fall back to master. Pull images tagged for each stage of a
+  multi-stage build.
 
 parameters:
   image:

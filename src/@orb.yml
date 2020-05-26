@@ -1,7 +1,8 @@
 version: 2.1
 
 description: |
-  TODO
+  Build docker images, possibly multi-stage, while pulling and pushing cached
+  images from a registry.
 
 display:
   source_url: https://github.com/pbrisbin/docker-build-cached-orb
