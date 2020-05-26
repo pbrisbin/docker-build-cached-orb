@@ -32,7 +32,11 @@ executor: <<parameters.executor>>
 
 steps:
   - checkout
-  - setup_remote_docker
+
+  # TODO: unnecessary with Machine executor, but necessary if custom executor is
+  # used that'd require it. Probably need some hook parameters to suppor this.
+  # - setup_remote_docker
+
   - login:
       registry-username: <<parameters.registry-username>>
       registry-password: <<parameters.registry-password>>
