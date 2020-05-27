@@ -11,4 +11,5 @@ workflows:
       - orb-tools/publish-dev:
           orb-name: pbrisbin/docker-build-cached
           requires: [orb-tools/pack, orb-tools/lint]
+          context: orb-publish
           publish-token-variable: CIRCLECI_API_TOKEN
